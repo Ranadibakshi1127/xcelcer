@@ -1,0 +1,29 @@
+package xceler;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class LoginTest {
+	WebDriver driver;
+	@BeforeClass
+	public void configbeforeclass(){
+		System.setProperty("webdriver.chrome.driver", "D:\\selenium\\selenium neww\\chromedriver.exe");
+		driver=new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		driver.get("https://xcelerator.ninja/");
+		//driver.manage().window().maximize();
+	}
+	@BeforeMethod
+	public void configbeforemethod(){
+		System.out.println("ok");
+	}
+	@Test
+	public void verify_valid_input(){
+		System.out.println("ok");
+	}
+}

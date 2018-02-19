@@ -1,0 +1,34 @@
+package xceler;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+public class I_want_to_be_section_test {
+	
+	WebDriver driver;
+	WebDriverWait wait;
+	@BeforeClass
+	public void configbeforeclass(){
+		System.setProperty("webdriver.chrome.driver", "D:\\selenium\\selenium neww\\chromedriver.exe");
+		driver=new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(120, TimeUnit.SECONDS);
+		driver.get("https://xcelerator.ninja/");		
+		wait=new WebDriverWait(driver, 120);		
+	}
+	
+	@Test(dataProvider="DataInput")
+	public void validate_I_want_to_be_section(String linkName, String expUrl){
+		
+		driver.findElement(By.xpath("//*[text()='"+linkName+"']")).click();
+		String acturl=driver.getCurrentUrl();
+		Assert.assertEquals(acturl, expUrl,"url doesnt match");
+	}
+
+}

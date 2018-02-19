@@ -1,0 +1,65 @@
+package xceler;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.testng.Reporter;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+public class linkTest {
+	WebDriver driver;
+	WebDriverWait wait;
+	@BeforeClass
+	public void configbeforeclass(){
+		System.setProperty("webdriver.chrome.driver", "D:\\selenium\\selenium neww\\chromedriver.exe");
+		driver=new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(120, TimeUnit.SECONDS);
+		driver.get("https://xcelerator.ninja/");		
+		wait=new WebDriverWait(driver, 120);		
+	}
+	@Test(dataProvider="DataInput")
+	public void validate_header_link_test(String linkName, String expUrl){
+		driver.findElement(By.xpath("//button[text()='LOGIN']")).click();
+		String acturl=driver.getCurrentUrl();
+		///System.out.println(url);
+		//System.out.println(linkName);
+		//System.out.println(expUrl);
+		try{
+			Assert.assertEquals(acturl, expUrl);
+		}catch(Exception e){
+			
+		}
+	}
+	   @DataProvider(name="DataInput")
+	    public static Iterator fetchData() throws InvalidFormatException, IOException{
+	        ArrayList myData = new ArrayList();
+	        FileInputStream fis = new FileInputStream("C:\\Users\\admin123\\Desktop\\xceler_home_link_Section.xlsx");
+	        Workbook wb = WorkbookFactory.create(fis);
+	        Sheet sh = wb.getSheet("Sheet1");
+	        int numOfRows = sh.getLastRowNum();
+	        String linkName, expUrl;
+	        for(int i=1; i<numOfRows; i++){
+	            linkName = sh.getRow(i).getCell(0).getStringCellValue();
+	            expUrl = sh.getRow(i).getCell(1).getStringCellValue();
+	            
+	            myData.add(new Object[]{linkName,expUrl});
+	        }
+	        return myData.iterator();
+	    }	
+}

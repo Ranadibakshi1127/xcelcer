@@ -1,0 +1,24 @@
+package xceler;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class LoginTest {
+	WebDriver driver;
+	@BeforeClass
+	public void configbeforeclass(){
+		driver=new ChromeDriver();
+		driver.get("https://xcelerator.ninja/");
+	}
+	@BeforeMethod
+	public void configbeforemethod(){
+		
+	}
+	@Test
+	public void verify_valid_input(){
+		
+	}
+}

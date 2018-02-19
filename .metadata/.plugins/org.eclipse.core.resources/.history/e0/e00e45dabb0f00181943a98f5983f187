@@ -1,0 +1,61 @@
+package xceler;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Reporter;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class LoginTest {
+	WebDriver driver;
+	WebDriverWait wait;
+	@BeforeClass
+	public void configbeforeclass(){
+		System.setProperty("webdriver.chrome.driver", "D:\\selenium\\selenium neww\\chromedriver.exe");
+		driver=new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(120, TimeUnit.SECONDS);
+		driver.get("https://xcelerator.ninja/");		
+		wait=new WebDriverWait(driver, 120);		
+	}
+	@BeforeMethod
+	public void configbeforemethod(){
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[text()='LOGIN']")));
+		driver.findElement(By.xpath("//button[text()='LOGIN']")).click();
+		Reporter.log("login button clicked");
+	}
+	@Test
+	public void verify_valid_input(){
+		String email="xceletorninja@gmail.com";
+		String password="xc123456789";
+		driver.findElement(By.xpath("//input[@name='email']")).sendKeys(email);
+		Reporter.log("valid email id");
+		driver.findElement(By.xpath("//input[@name='password']")).sendKeys(password);
+		Reporter.log("valid password");
+		driver.findElement(By.xpath("//button[@class='loginModalButton']")).click();
+		Reporter.log("button clicked");	
+		driver.manage().timeouts().implicitlyWait(120, TimeUnit.SECONDS);
+		String expURL="https://xcelerator.ninja/dashboard";
+		String actURL=driver.getCurrentUrl();
+		System.out.println(actURL);
+		
+		
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
